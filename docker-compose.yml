@@ -13,7 +13,7 @@ services:
       WORDPRESS_DB_PASSWORD: weepee
       WORDPRESS_DB_NAME: weepee
     volumes:
-      - ./app:/var/www/html
+      - ./plugins:/var/www/html/wp-content/plugins
 
   db:
     image: arm64v8/mysql:oracle
