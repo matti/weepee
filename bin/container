@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+case "$1" in
+  recreate)
+    docker-compose up -d db
+    while true; do
+      docker-compose up --force-recreate wordpress || true
+      sleep 0.1
+    done
+  ;;
+  shell)
+    while true; do
+      docker-compose exec wordpress bash || true
+      sleep 0.1
+    done
+  ;;
+esac

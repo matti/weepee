@@ -1,0 +1,30 @@
+version: '3.1'
+
+services:
+
+  wordpress:
+    image: wordpress
+    restart: unless-stopped
+    ports:
+      - 80:80
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: weepee
+      WORDPRESS_DB_PASSWORD: weepee
+      WORDPRESS_DB_NAME: weepee
+    volumes:
+      - ./app:/var/www/html
+
+  db:
+    image: arm64v8/mysql:oracle
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: weepee
+      MYSQL_USER: weepee
+      MYSQL_PASSWORD: weepee
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - db:/var/lib/mysql
+
+volumes:
+  db:
