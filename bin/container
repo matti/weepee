@@ -6,13 +6,17 @@ case "$1" in
     docker-compose up -d db
     while true; do
       docker-compose up --force-recreate wordpress || true
-      sleep 0.1
+      sleep 0.2
     done
   ;;
   shell)
     while true; do
       docker-compose exec wordpress bash || true
-      sleep 0.1
+      sleep 0.2
     done
+  ;;
+  sync)
+    cd ~/dev/supervisor-com/wordpress/
+      reflex -- rsync -avh --delete . ~/dev/weepee/plugins/supervisor-com/
   ;;
 esac
