@@ -6,7 +6,7 @@ services:
     image: wordpress
     restart: unless-stopped
     ports:
-      - 9999:80
+      - 10.99.99.99:80:80
     environment:
       WORDPRESS_DB_HOST: db
       WORDPRESS_DB_USER: weepee
@@ -17,7 +17,7 @@ services:
       - ./plugins:/var/www/html/wp-content/plugins
 
   db:
-    image: arm64v8/mysql:oracle
+    image: ${WEEPEE_MYSQL_IMAGE}
     restart: unless-stopped
     environment:
       MYSQL_DATABASE: weepee

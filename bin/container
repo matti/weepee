@@ -7,6 +7,21 @@ case "$1" in
     rm -rf plugins/*
   ;;
   recreate)
+
+    case $(uname) in
+      Darwin)
+        sudo ifconfig lo0 alias 10.99.99.99
+        WEEPEE_MYSQL_IMAGE=arm64v8/mysql:oracle
+      ;;
+      Linux)
+        sudo ifconfig lo:40 10.99.99.99 netmask 255.255.255.0 up
+        WEEPEE_MYSQL_IMAGE=mysql
+      ;;
+    esac
+
+    export WEEPEE_MYSQL_IMAGE
+
+    mkdir -p plugins/dev
     docker-compose up -d db
     while true; do
       docker-compose up --force-recreate wordpress || true
