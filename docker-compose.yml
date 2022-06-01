@@ -6,7 +6,7 @@ services:
     image: wordpress
     restart: unless-stopped
     ports:
-      - 80:80
+      - 9999:80
     environment:
       WORDPRESS_DB_HOST: db
       WORDPRESS_DB_USER: weepee
