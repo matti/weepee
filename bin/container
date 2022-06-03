@@ -1,21 +1,30 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+
+case $(uname) in
+  Darwin)
+    WEEPEE_MYSQL_IMAGE=arm64v8/mysql:oracle
+  ;;
+  Linux)
+    WEEPEE_MYSQL_IMAGE=mysql
+  ;;
+esac
+
+export WEEPEE_MYSQL_IMAGE
+
 case "$1" in
   reset)
     docker-compose down --volumes
     rm -rf plugins/*
   ;;
   recreate)
-
     case $(uname) in
       Darwin)
         sudo ifconfig lo0 alias 10.99.99.99
-        WEEPEE_MYSQL_IMAGE=arm64v8/mysql:oracle
       ;;
       Linux)
         sudo ifconfig lo:10 10.99.99.99 netmask 255.255.255.0 up
-        WEEPEE_MYSQL_IMAGE=mysql
       ;;
     esac
 
@@ -37,8 +46,8 @@ case "$1" in
   sync)
     DIR=$(pwd)
     cd "$2"
-      rsync -avh --delete . "$DIR/plugins/dev"
-      reflex -- rsync -avh --delete . "$DIR/plugins/dev"
+      rsync -avh --delete . "$DIR/plugins/dev/"
+      reflex -- rsync -avh --delete . "$DIR/plugins/dev/"
   ;;
   up)
     $0 sync $2 &
